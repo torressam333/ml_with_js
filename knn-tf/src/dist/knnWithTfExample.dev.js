@@ -18,7 +18,7 @@ var calculatedFeatures = features.sub(predictionPoint).pow(2).sum(1).pow(0.5); /
 
 var concatFeatures = calculatedFeatures.expandDims(1).concat(labels, 1); // (JS array of tensors)
 
-var unstackedFeatures = concatFeatures.unstack(); // Sorted array
+var unstackedFeatures = concatFeatures.unstack(); // Sorted array using arraySync to grab data from tensor by index
 
 var sortedFeatures = unstackedFeatures.sort(function (a, b) {
   return a.arraySync()[0] > b.arraySync()[0] ? 1 : -1;
