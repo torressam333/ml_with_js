@@ -19,7 +19,7 @@ const COLORS = [
   '#039be5',
   '#0288d1',
   '#0277bd',
-  '#01579b'
+  '#01579b',
 ];
 
 const Engine = Matter.Engine,
@@ -30,7 +30,7 @@ const Engine = Matter.Engine,
   Body = Matter.Body;
 
 const engine = Engine.create({
-  timing: { timeScale: 2 }
+  timing: { timeScale: 2 },
 });
 const render = Render.create({
   element: document.querySelector('.target'),
@@ -39,8 +39,8 @@ const render = Render.create({
     width: CANVAS_WIDTH,
     height: CANVAS_HEIGHT,
     wireframes: false,
-    background: '#f1f1f1'
-  }
+    background: '#f1f1f1',
+  },
 });
 
 const ground = Bodies.rectangle(
@@ -51,17 +51,17 @@ const ground = Bodies.rectangle(
   {
     id: 999,
     isStatic: true,
-    collisionFilter: { group: 'ground' }
+    collisionFilter: { group: 'ground' },
   }
 );
 const ground2 = Bodies.rectangle(0, CANVAS_HEIGHT, CANVAS_WIDTH * 3, 50, {
   id: 9999,
   isStatic: true,
-  collisionFilter: { group: 'ground' }
+  collisionFilter: { group: 'ground' },
 });
 const indicator = Bodies.circle(BALL_SIZE, BALL_SIZE, BALL_SIZE, {
   isStatic: true,
-  collisionFilter: { group: 'ball' }
+  collisionFilter: { group: 'ball' },
 });
 
 const pegs = [];
@@ -75,7 +75,7 @@ for (let i = 1; i < CANVAS_HEIGHT / PEG_Y - 1; i++) {
     }
 
     const peg = Bodies.polygon(x, y, 7, BALL_SIZE / 4, {
-      isStatic: true
+      isStatic: true,
     });
     pegs.push(peg);
   }
@@ -87,7 +87,7 @@ const leftWall = Bodies.rectangle(
   1,
   CANVAS_HEIGHT,
   {
-    isStatic: true
+    isStatic: true,
   }
 );
 const rightWall = Bodies.rectangle(
@@ -96,7 +96,7 @@ const rightWall = Bodies.rectangle(
   1,
   CANVAS_HEIGHT,
   {
-    isStatic: true
+    isStatic: true,
   }
 );
 
@@ -115,11 +115,11 @@ for (let i = 0; i < 10; i++) {
       isStatic: true,
       isSensor: true,
       render: {
-        fillStyle: BUCKET_COLOR
+        fillStyle: BUCKET_COLOR,
       },
       collisionFilter: {
-        group: 'bucket'
-      }
+        group: 'bucket',
+      },
     }
   );
   const divider = Bodies.rectangle(
@@ -129,7 +129,7 @@ for (let i = 0; i < 10; i++) {
     bucketHeight,
     {
       isStatic: true,
-      collisionFilter: { group: 'bucket' }
+      collisionFilter: { group: 'bucket' },
     }
   );
   bucketIdRange.push(i);
@@ -144,7 +144,7 @@ World.add(engine.world, [
   ground,
   indicator,
   leftWall,
-  rightWall
+  rightWall,
 ]);
 Engine.run(engine);
 Render.run(render);
@@ -176,7 +176,7 @@ function dropBalls(position, quantity) {
     const ball = Bodies.circle(dropX, size, size, {
       restitution,
       collisionFilter: { group: 'ball' },
-      friction: 0.9
+      friction: 0.9,
     });
     ball.size = size;
     ball.restitution = restitution;
@@ -200,7 +200,7 @@ const events = {
     const quantity = parseInt(document.querySelector('#drop-quantity').value);
 
     dropBalls(x, quantity);
-  }
+  },
 };
 for (let event in events) {
   canvas.addEventListener(event, events[event]);
@@ -208,7 +208,7 @@ for (let event in events) {
 
 let _score = {};
 Events.on(engine, 'collisionActive', ({ pairs }) => {
-  const filteredPairs = pairs.forEach(pair => {
+  const filteredPairs = pairs.forEach((pair) => {
     if (
       (bucketIdRange.includes(pair.bodyA.id) ||
         bucketIdRange.includes(pair.bodyB.id)) &&
@@ -272,10 +272,10 @@ document.querySelector('button#analyze').addEventListener('click', runAnalysis);
 
 document
   .querySelectorAll('form')
-  .forEach(f => f.addEventListener('submit', e => e.preventDefault()));
+  .forEach((f) => f.addEventListener('submit', (e) => e.preventDefault()));
 
 function updateBucketColors(_score) {
-  const counts = _.range(0, 10).map(i => _score[i] || 0);
+  const counts = _.range(0, 10).map((i) => _score[i] || 0);
 
   const min = _.min(counts);
   const max = _.max(counts);
@@ -294,14 +294,14 @@ function updateBucketColors(_score) {
     .value();
 }
 
-document.querySelector('#reset').addEventListener('click', function() {
+document.querySelector('#reset').addEventListener('click', function () {
   try {
     while (outputs.length) {
       outputs.pop();
     }
   } catch (e) {}
 
-  _.range(0, 10).forEach(i => {
+  _.range(0, 10).forEach((i) => {
     buckets[i * 2].render.fillStyle = BUCKET_COLOR;
     document.querySelector(`#bucket-${i}`).innerHTML = 0;
   });
