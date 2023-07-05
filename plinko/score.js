@@ -9,11 +9,27 @@ function onScoreUpdate(dropPosition, bounciness, size, bucketLabel) {
   // Store ball drop data per each drop in 2d-array
   outputs.push([dropPosition, bounciness, size, bucketLabel]);
 
-  // Map over res and use dropPosition and bucketLabel only
+  // K-nearest-neighbor algorithm using lodash to get most likel bucket #
   _.chain(outputs)
     .map((row) => [distance(row[0]), row[3]])
+    // Sort by ball drop point distance from prediction point
     .sortBy((row) => row[0])
-    .slice(0, k); // take top k results
+    // take top k results
+    .slice(0, k)
+    // get frequency (# of records) using bucket;
+    .countBy((row) => row[1])
+    // Convert ratio object to 2d array: i.e. [[4,2], 1,1]
+    .toPairs()
+    // Sort by 2nd elem as criteria
+    .sortBy((row) => row[1]) // [[1,1], [4,2]]
+    // Last inner array in 2d array is most probable target: [4,2]
+    .last()
+    // Grab bucket number from [4,2] === "4"
+    .first()
+    // Convert "4" to 4
+    .parseInt()
+    // Term chain and return value
+    .value();
 }
 
 function runAnalysis() {
