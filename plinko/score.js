@@ -12,29 +12,6 @@ function onScoreUpdate(dropPosition, bounciness, size, bucketLabel) {
 
 function runAnalysis() {
   console.log('analyzing...');
-  // K-nearest-neighbor algorithm using lodash to get most likel bucket #
-  const bucket = _.chain(outputs)
-    .map((row) => [distance(row[0]), row[3]])
-    // Sort by ball drop point distance from prediction point
-    .sortBy((row) => row[0])
-    // take top k results
-    .slice(0, k)
-    // get frequency (# of records) using bucket;
-    .countBy((row) => row[1])
-    // Convert ratio object to 2d array: i.e. [[4,2], 1,1]
-    .toPairs()
-    // Sort by 2nd elem as criteria
-    .sortBy((row) => row[1]) // [[1,1], [4,2]]
-    // Last inner array in 2d array is most probable target: [4,2]
-    .last()
-    // Grab bucket number from [4,2] === "4"
-    .first()
-    // Convert "4" to 4
-    .parseInt()
-    // Term chain and return value
-    .value();
-
-  console.log('Your point will probably fall into bucket #' + bucket);
 }
 
 // Helper fn to do step 1 of knn (sub drop point from 300 as abs value)
@@ -52,4 +29,35 @@ function splitDataSets(data, testCount) {
   const trainingSet = _.slice(shuffled, testCount);
 
   return [testSet, trainingSet];
+}
+
+/**
+ *
+ * @param {*} data
+ * @returns
+ */
+function runKNN(data) {
+  // K-nearest-neighbor algorithm using lodash to get most likel bucket #
+  return (
+    _.chain(trainingSet)
+      .map((row) => [distance(row[0]), row[3]])
+      // Sort by ball drop point distance from prediction point
+      .sortBy((row) => row[0])
+      // take top k results
+      .slice(0, k)
+      // get frequency (# of records) using bucket;
+      .countBy((row) => row[1])
+      // Convert ratio object to 2d array: i.e. [[4,2], 1,1]
+      .toPairs()
+      // Sort by 2nd elem as criteria
+      .sortBy((row) => row[1]) // [[1,1], [4,2]]
+      // Last inner array in 2d array is most probable target: [4,2]
+      .last()
+      // Grab bucket number from [4,2] === "4"
+      .first()
+      // Convert "4" to 4
+      .parseInt()
+      // Term chain and return value
+      .value()
+  );
 }
