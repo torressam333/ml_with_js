@@ -8,9 +8,12 @@ const k = 3;
 function onScoreUpdate(dropPosition, bounciness, size, bucketLabel) {
   // Store ball drop data per each drop in 2d-array
   outputs.push([dropPosition, bounciness, size, bucketLabel]);
+}
 
+function runAnalysis() {
+  console.log('analyzing...');
   // K-nearest-neighbor algorithm using lodash to get most likel bucket #
-  _.chain(outputs)
+  const bucket = _.chain(outputs)
     .map((row) => [distance(row[0]), row[3]])
     // Sort by ball drop point distance from prediction point
     .sortBy((row) => row[0])
@@ -30,11 +33,8 @@ function onScoreUpdate(dropPosition, bounciness, size, bucketLabel) {
     .parseInt()
     // Term chain and return value
     .value();
-}
 
-function runAnalysis() {
-  // Write code here to analyze stuff
-  console.log('analyzing...');
+  console.log('Your point will probably fall into bucket #' + bucket);
 }
 
 // Helper fn to do step 1 of knn (sub drop point from 300 as abs value)
