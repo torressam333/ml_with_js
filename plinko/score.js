@@ -5,6 +5,13 @@ const predictionPoint = 300;
 // Arbitrary value for k, can be anything.
 const k = 3;
 
+/**
+ *
+ * @param {*} dropPosition
+ * @param {*} bounciness
+ * @param {*} size
+ * @param {*} bucketLabel
+ */
 function onScoreUpdate(dropPosition, bounciness, size, bucketLabel) {
   // Store ball drop data per each drop in 2d-array
   outputs.push([dropPosition, bounciness, size, bucketLabel]);
@@ -14,12 +21,19 @@ function runAnalysis() {
   console.log('analyzing...');
 }
 
-// Helper fn to do step 1 of knn (sub drop point from 300 as abs value)
-function distance(point) {
-  return Math.abs(point - predictionPoint);
+// Helper fn to do step 1 of knn (sub drop point from x as abs value)
+function distance(pointA, pointB) {
+  return Math.abs(pointA - pointB);
 }
 
-// Use to split data in 'training' set and 'test' set
+/**
+ *
+ * @param {*} data
+ * @param {*} testCount
+ * @returns
+ *
+ * Use to split data in 'training' set and 'test' set
+ */
 function splitDataSets(data, testCount) {
   // Shuffle data to make it more randomized (less bias)
   const shuffled = _.shuffle(data);
@@ -34,13 +48,14 @@ function splitDataSets(data, testCount) {
 /**
  *
  * @param {*} data
+ * @param {*} point
  * @returns
  */
-function runKNN(data) {
+function runKNN(data, point) {
   // K-nearest-neighbor algorithm using lodash to get most likel bucket #
   return (
     _.chain(trainingSet)
-      .map((row) => [distance(row[0]), row[3]])
+      .map((row) => [distance(row[0], point), row[3]])
       // Sort by ball drop point distance from prediction point
       .sortBy((row) => row[0])
       // take top k results
