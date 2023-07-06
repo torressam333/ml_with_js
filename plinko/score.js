@@ -41,3 +41,15 @@ function runAnalysis() {
 function distance(point) {
   return Math.abs(point - predictionPoint);
 }
+
+// Use to split data in 'training' set and 'test' set
+function splitDataSets(data, testCount) {
+  // Shuffle data to make it more randomized (less bias)
+  const shuffled = _.shuffle(data);
+
+  // Split data
+  const testSet = _.slice(shuffled, 0, testCount);
+  const trainingSet = _.slice(shuffled, testCount);
+
+  return [testSet, trainingSet];
+}
