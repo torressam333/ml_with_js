@@ -25,17 +25,15 @@ function runAnalysis() {
 
   let numberCorrect = 0;
 
-  for (let i = 0; i < testSet.length; i++) {
-    // Knn expects training set and the dropPosition [i][0]
-    const predictedBucket = runKNN(trainingSet, testSet[i][0]);
+  // Does bucket prediction from runKNN === bucketLabel?
+  const accuracy = _.chain(testSet)
+    .filter((testPoint) => runKNN(trainingSet, testPoint[0]) === testPoint[3])
+    .size()
+    .divide(testSetSize)
+    .value();
 
-    // Tabulate correct bucket predictions %
-    if (predictedBucket === testSet[i][3]) numberCorrect++;
-  }
-
-  const predictionAccuracy = (numberCorrect / testSetSize) * 100;
-
-  console.log(`You're prediction accuracy is ${predictionAccuracy}%`);
+  // const predictionAccuracy = (numberCorrect / testSetSize) * 100;
+  console.log(`You're prediction accuracy is ${accuracy * 100}%`);
 }
 
 // Helper fn to do step 1 of knn (sub drop point from x as abs value)
