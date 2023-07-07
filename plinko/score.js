@@ -19,6 +19,23 @@ function onScoreUpdate(dropPosition, bounciness, size, bucketLabel) {
 
 function runAnalysis() {
   console.log('analyzing...');
+  // Make predictions for 10 separate data points
+  const testSetSize = 10;
+  const [testSet, trainingSet] = splitDataSets(outputs, testSetSize);
+
+  let numberCorrect = 0;
+
+  for (let i = 0; i < testSet.length; i++) {
+    // Knn expects training set and the dropPosition [i][0]
+    const predictedBucket = runKNN(trainingSet, testSet[i][0]);
+
+    // Tabulate correct bucket predictions %
+    if (predictedBucket === testSet[i][3]) numberCorrect++;
+  }
+
+  const predictionAccuracy = (numberCorrect / testSetSize) * 100;
+
+  console.log(`You're prediction accuracy is ${predictionAccuracy}%`);
 }
 
 // Helper fn to do step 1 of knn (sub drop point from x as abs value)
@@ -54,7 +71,7 @@ function splitDataSets(data, testCount) {
 function runKNN(data, point) {
   // K-nearest-neighbor algorithm using lodash to get most likel bucket #
   return (
-    _.chain(trainingSet)
+    _.chain(data)
       .map((row) => [distance(row[0], point), row[3]])
       // Sort by ball drop point distance from prediction point
       .sortBy((row) => row[0])
