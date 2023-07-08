@@ -22,7 +22,7 @@ function runAnalysis() {
   const [testSet, trainingSet] = splitDataSets(outputs, testSetSize);
 
   // Use lodash range method to test varying values for K
-  _.range(1, 20).forEach((k) => {
+  _.range(1, 10).forEach((k) => {
     // Does bucket prediction from runKNN === bucketLabel?
     const accuracy = _.chain(testSet)
       .filter(
