@@ -17,12 +17,12 @@ function onScoreUpdate(dropPosition, bounciness, size, bucketLabel) {
 
 function runAnalysis() {
   console.log('analyzing...');
-  // Make predictions for 10 separate data points
-  const testSetSize = 10;
+  // Make predictions for 10 separate data points === [1,4,16,2]
+  const testSetSize = 100;
   const [testSet, trainingSet] = splitDataSets(outputs, testSetSize);
 
   // Use lodash range method to test varying values for K
-  _.range(1, 15).forEach((k) => {
+  _.range(1, 20).forEach((k) => {
     // Does bucket prediction from runKNN === bucketLabel?
     const accuracy = _.chain(testSet)
       .filter(
@@ -33,9 +33,9 @@ function runAnalysis() {
       .value();
 
     console.log(
-      `You're prediction accuracy is ${
+      `You're prediction accuracy is ${Math.floor(
         accuracy * 100
-      }% with the top ${k} values`
+      )}% with the top ${k} values`
     );
   });
 }
