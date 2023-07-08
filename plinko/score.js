@@ -2,8 +2,6 @@
 const outputs = [];
 // Arbitrary point used for this expirimentation
 const predictionPoint = 300;
-// Arbitrary value for k, can be anything.
-const k = 3;
 
 /**
  *
@@ -23,17 +21,19 @@ function runAnalysis() {
   const testSetSize = 10;
   const [testSet, trainingSet] = splitDataSets(outputs, testSetSize);
 
-  let numberCorrect = 0;
+  // Use lodash range method to test varying values for K
+  _.range(1, 15).forEach((k) => {
+    // Does bucket prediction from runKNN === bucketLabel?
+    const accuracy = _.chain(testSet)
+      .filter(
+        (testPoint) => runKNN(trainingSet, testPoint[0], k) === testPoint[3]
+      )
+      .size()
+      .divide(testSetSize)
+      .value();
 
-  // Does bucket prediction from runKNN === bucketLabel?
-  const accuracy = _.chain(testSet)
-    .filter((testPoint) => runKNN(trainingSet, testPoint[0]) === testPoint[3])
-    .size()
-    .divide(testSetSize)
-    .value();
-
-  // const predictionAccuracy = (numberCorrect / testSetSize) * 100;
-  console.log(`You're prediction accuracy is ${accuracy * 100}%`);
+    console.log(`You're prediction accuracy is ${accuracy * 100}%`);
+  });
 }
 
 // Helper fn to do step 1 of knn (sub drop point from x as abs value)
@@ -66,7 +66,7 @@ function splitDataSets(data, testCount) {
  * @param {*} point
  * @returns
  */
-function runKNN(data, point) {
+function runKNN(data, point, k) {
   // K-nearest-neighbor algorithm using lodash to get most likel bucket #
   return (
     _.chain(data)
