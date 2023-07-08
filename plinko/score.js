@@ -32,7 +32,11 @@ function runAnalysis() {
       .divide(testSetSize)
       .value();
 
-    console.log(`You're prediction accuracy is ${accuracy * 100}%`);
+    console.log(
+      `You're prediction accuracy is ${
+        accuracy * 100
+      }% with the top ${k} values`
+    );
   });
 }
 
