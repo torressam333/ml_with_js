@@ -40,9 +40,21 @@ function runAnalysis() {
   });
 }
 
-// Helper fn to do step 1 of knn (sub drop point from x as abs value)
+// Use pythag theorum to work with any # of features
 function distance(pointA, pointB) {
-  return Math.abs(pointA - pointB);
+  /**
+   *  Use lodash to compare and calculate between arrays of points
+   * i.e. pointA [1,1]. pointB 4,5
+   * map() and sum() [-3, -4] = -7 ** 2 === -49
+   * square root using ** 0.5 = 5
+   */
+  return (
+    _.chain(pointA)
+      .zip(pointB)
+      .map(([a, b]) => (a - b) ** 2)
+      .sum()
+      .value() ** 0.5
+  );
 }
 
 /**
