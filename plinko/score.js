@@ -43,10 +43,12 @@ function runAnalysis() {
 // Use pythag theorum to work with any # of features
 function distance(pointA, pointB) {
   /**
-   *  Use lodash to compare and calculate between arrays of points
-   * i.e. pointA [1,1]. pointB 4,5
-   * map() and sum() [-3, -4] = -7 ** 2 === -49
-   * square root using ** 0.5 = 5
+   * _.chain(pointA): Creates a lodash chain using pointA as the starting point.
+   * .zip(pointB): Zips the elements of pointA and pointB together, resulting in an array of pairs: [[1, 4], [1, 5]].
+   * .map(([a, b]) => (a - b) ** 2): Maps over each pair of elements, subtracts the second element from the first element, and squares the result. In this case, the mapping would be [(1 - 4)^2, (1 - 5)^2], resulting in [9, 16].
+   * .sum(): Computes the sum of the mapped values. In this case, the sum is 9 + 16 = 25.
+   * .value() ** 0.5: Retrieves the final result of the chain and calculates its square root. In this case, the square root of 25 is 5.
+   * Therefore, when the points pointA = [1, 1] and pointB = [4, 5] are used in the given code, the result will be 5.
    */
   return (
     _.chain(pointA)
