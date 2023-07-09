@@ -26,7 +26,8 @@ function runAnalysis() {
     // Does bucket prediction from runKNN === bucketLabel?
     const accuracy = _.chain(testSet)
       .filter(
-        (testPoint) => runKNN(trainingSet, testPoint[0], k) === testPoint[3]
+        (testPoint) =>
+          runKNN(trainingSet, _.initial(testPoint), k) === testPoint[3]
       )
       .size()
       .divide(testSetSize)
@@ -40,9 +41,23 @@ function runAnalysis() {
   });
 }
 
-// Helper fn to do step 1 of knn (sub drop point from x as abs value)
+// Use pythag theorum to work with any # of features
 function distance(pointA, pointB) {
-  return Math.abs(pointA - pointB);
+  /**
+   * _.chain(pointA): Creates a lodash chain using pointA as the starting point.
+   * .zip(pointB): Zips the elements of pointA and pointB together, resulting in an array of pairs: [[1, 4], [1, 5]].
+   * .map(([a, b]) => (a - b) ** 2): Maps over each pair of elements, subtracts the second element from the first element, and squares the result. In this case, the mapping would be [(1 - 4)^2, (1 - 5)^2], resulting in [9, 16].
+   * .sum(): Computes the sum of the mapped values. In this case, the sum is 9 + 16 = 25.
+   * .value() ** 0.5: Retrieves the final result of the chain and calculates its square root. In this case, the square root of 25 is 5.
+   * Therefore, when the points pointA = [1, 1] and pointB = [4, 5] are used in the given code, the result will be 5.
+   */
+  return (
+    _.chain(pointA)
+      .zip(pointB)
+      .map(([a, b]) => (a - b) ** 2)
+      .sum()
+      .value() ** 0.5
+  );
 }
 
 /**
@@ -71,10 +86,13 @@ function splitDataSets(data, testCount) {
  * @returns
  */
 function runKNN(data, point, k) {
+  // point has three values
   // K-nearest-neighbor algorithm using lodash to get most likel bucket #
   return (
     _.chain(data)
-      .map((row) => [distance(row[0], point), row[3]])
+      .map((row) => {
+        return [distance(_.initial(row), point), _.last(row)];
+      })
       // Sort by ball drop point distance from prediction point
       .sortBy((row) => row[0])
       // take top k results
