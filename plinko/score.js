@@ -26,7 +26,8 @@ function runAnalysis() {
     // Does bucket prediction from runKNN === bucketLabel?
     const accuracy = _.chain(testSet)
       .filter(
-        (testPoint) => runKNN(trainingSet, testPoint[0], k) === testPoint[3]
+        (testPoint) =>
+          runKNN(trainingSet, _.initial(testPoint), k) === testPoint[3]
       )
       .size()
       .divide(testSetSize)
@@ -85,10 +86,13 @@ function splitDataSets(data, testCount) {
  * @returns
  */
 function runKNN(data, point, k) {
+  // point has three values
   // K-nearest-neighbor algorithm using lodash to get most likel bucket #
   return (
     _.chain(data)
-      .map((row) => [distance(row[0], point), row[3]])
+      .map((row) => {
+        return [distance(_.initial(row), point), _.last(row)];
+      })
       // Sort by ball drop point distance from prediction point
       .sortBy((row) => row[0])
       // take top k results
