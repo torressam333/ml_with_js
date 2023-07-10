@@ -113,3 +113,26 @@ function runKNN(data, point, k) {
       .value()
   );
 }
+
+function minMax(data, featureCount) {
+  // Clone data to ensure no mutation happens
+  const clonedData = _.cloneDeep(data);
+
+  // (first iterate over columns)
+  for (let i = 0; i < featureCount; i++) {
+    // Grab dropPosition as an arr of numbers
+    const column = clonedData.map((row) => row[i]);
+
+    // Find min and max values
+    const min = _.min(column);
+    const max = _.max(column);
+
+    // Iterate over every row and modify in place
+    for (let j = 0; j < clonedData.length; j++) {
+      // Normalize data (update data in place)
+      clonedData[j][i] = (clonedData[j][i] - min) / (max - min);
+    }
+  }
+
+  return clonedData;
+}
