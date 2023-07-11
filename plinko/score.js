@@ -20,16 +20,19 @@ function runAnalysis() {
   // Make predictions for 10 separate data points === [1,4,16,2]
   const testSetSize = 100;
   const k = 10;
-  const [testSet, trainingSet] = splitDataSets(minMax(outputs, 3), testSetSize);
 
   // Use lodash range method to test varying values for K
   // feature === 0 then 1 then 2, range excludes 3.
   _.range(0, 3).forEach((feature) => {
+    // Return 2D array with features we want included (dropPosition...)
+    const data = _.map(outputs, (row) => [row[feature], _.last(row)]);
+    const [testSet, trainingSet] = splitDataSets(minMax(data, 1), testSetSize);
+
     // Does bucket prediction from runKNN === bucketLabel?
     const accuracy = _.chain(testSet)
       .filter(
         (testPoint) =>
-          runKNN(trainingSet, _.initial(testPoint), feature) === testPoint[3]
+          runKNN(trainingSet, _.initial(testPoint), k) === _.last(testPoint)
       )
       .size()
       .divide(testSetSize)
@@ -38,7 +41,7 @@ function runAnalysis() {
     console.log(
       `You're prediction accuracy is ${Math.floor(
         accuracy * 100
-      )}% with the top ${k} values`
+      )}% with the top ${feature} values`
     );
   });
 }
