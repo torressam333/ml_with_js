@@ -19,7 +19,7 @@ function runAnalysis() {
   console.log('analyzing...');
   // Make predictions for 10 separate data points === [1,4,16,2]
   const testSetSize = 100;
-  const [testSet, trainingSet] = splitDataSets(outputs, testSetSize);
+  const [testSet, trainingSet] = splitDataSets(minMax(outputs, 3), testSetSize);
 
   // Use lodash range method to test varying values for K
   _.range(1, 10).forEach((k) => {
