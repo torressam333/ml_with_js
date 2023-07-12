@@ -39,9 +39,9 @@ function runAnalysis() {
       .value();
 
     console.log(
-      `You're prediction accuracy is ${Math.floor(
+      `You're prediction accuracy is ${Math.round(
         accuracy * 100
-      )}% with the top ${feature} values`
+      )}% with ${feature}`
     );
   });
 }
