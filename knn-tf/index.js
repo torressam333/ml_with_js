@@ -39,3 +39,12 @@ const result3 = data3.add(otherData3);
 // Works because even though 2 in data3 shape is missing counterpart
 // the absence of it or if it were 1 or equal to 2, it would work.
 console.log(result3.arraySync());
+
+const dataa = tf.tensor([1, 1]);
+const otherDataa = tf.tensor([1]);
+
+console.log(dataa.shape);
+console.log(otherDataa.shape);
+const res = dataa.sub(otherDataa);
+
+console.log(res.arraySync());

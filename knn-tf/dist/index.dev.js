@@ -26,3 +26,9 @@ var result3 = data3.add(otherData3); //[ [ [ 2, 3 ], [ 4, 5 ], [ 6, 7 ] ], [ [ 2
 // the absence of it or if it were 1 or equal to 2, it would work.
 
 console.log(result3.arraySync());
+var dataa = tf.tensor([1, 1]);
+var otherDataa = tf.tensor([1]);
+console.log(dataa.shape);
+console.log(otherDataa.shape);
+var res = dataa.sub(otherDataa);
+console.log(res.arraySync());
