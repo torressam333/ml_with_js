@@ -38,7 +38,7 @@ const result3 = data3.add(otherData3);
 //[ [ [ 2, 3 ], [ 4, 5 ], [ 6, 7 ] ], [ [ 2, 3 ], [ 4, 5 ], [ 6, 7 ] ] ]
 // Works because even though 2 in data3 shape is missing counterpart
 // the absence of it or if it were 1 or equal to 2, it would work.
-console.log(result3.arraySync());
+result3.print();
 
 const dataa = tf.tensor([1, 1]);
 const otherDataa = tf.tensor([1]);
