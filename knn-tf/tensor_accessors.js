@@ -16,9 +16,8 @@ const data2 = tf.tensor([10, 20, 30]);
 console.log(data.arraySync()[1][2]); // 300
 console.log(data2.arraySync()[1]); // 20
 
-// Access many elements in a tensor
-
 /**
+ * Access many elements in a tensor.
  * Grab only 2nd col from data
  * 
  * slice() breakdown
