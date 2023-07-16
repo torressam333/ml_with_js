@@ -14,4 +14,5 @@ const data2 = tf.tensor([
 // 1 helps concat horizontally by row (x axis). 0(default === y axis or column)
 const data3 = data.concat(data2, 1);
 
+// [ [ 10, 20, 30, 70, 80, 90 ], [ 40, 50, 60, 100, 110, 120 ] ]
 console.log(data3.arraySync());
