@@ -38,6 +38,13 @@ const playerData = tf.tensor([
  * values that will work beyond just the sum() function w/o using sum(1, true)
  */
 const sum = jumpData.sum(1);
-const expandSum = sum.expandDims(1);
+const expandSum = sum.expandDims(1).concat(playerData, 1);
 
-sum.print();
+/**
+ * Ouptut: 
+ *   [[210, 1, 60],
+     [210, 2, 60],
+     [210, 3, 60],
+     [210, 4, 60]]
+ */
+expandSum.print();

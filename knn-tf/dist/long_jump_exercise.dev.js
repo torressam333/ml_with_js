@@ -29,5 +29,13 @@ var playerData = tf.tensor([[1, 60], [2, 60], [3, 60], [4, 60]]);
  */
 
 var sum = jumpData.sum(1);
-var expandSum = sum.expandDims(1);
-sum.print();
+var expandSum = sum.expandDims(1).concat(playerData, 1);
+/**
+ * Ouptut: 
+ *   [[210, 1, 60],
+     [210, 2, 60],
+     [210, 3, 60],
+     [210, 4, 60]]
+ */
+
+expandSum.print();
