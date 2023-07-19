@@ -18,6 +18,13 @@ const labels = tf.tensor([[200], [250], [215], [240]]);
 // Create prediction: point trying to calculate prop value for
 const predictionPoint = tf.tensor([-121, 47]);
 
+// Formula: sq-root[(lat - lat)^2 + (long - long)^2] (pythag theorem)
 const calculatedFeatures = features.sub(predictionPoint).pow(2).sum(1).pow(0.5);
 
-console.log(calculatedFeatures.arraySync());
+// Concat distances and labels (keep indices aligned for sorting) = 2D tensor
+const concatFeatures = calculatedFeatures.expandDims(1).concat(labels, 1);
+
+// Sort data from low -> great
+
+// Take top K records (least -> great)
+console.log(concatFeatures.arraySync());
