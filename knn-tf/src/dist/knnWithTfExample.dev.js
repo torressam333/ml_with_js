@@ -16,7 +16,13 @@ var predictionPoint = tf.tensor([-121, 47]); // Formula: sq-root[(lat - lat)^2 +
 
 var calculatedFeatures = features.sub(predictionPoint).pow(2).sum(1).pow(0.5); // Concat distances and labels (keep indices aligned for sorting) = 2D tensor
 
-var concatFeatures = calculatedFeatures.expandDims(1).concat(labels, 1); // Sort data from low -> great
-// Take top K records (least -> great)
+var concatFeatures = calculatedFeatures.expandDims(1).concat(labels, 1); // (JS array of tensors)
 
-console.log(concatFeatures.arraySync());
+var unstackedFeatures = concatFeatures.unstack(); // Sorted array
+
+var sortedFeatures = unstackedFeatures.sort(function (a, b) {
+  return a.arraySync()[0] > b.arraySync()[0] ? 1 : -1;
+}); // Take top K records (least -> great)
+// console.log(concatFeatures.arraySync());
+
+console.log(sortedFeatures[2].arraySync());

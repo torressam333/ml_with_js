@@ -24,7 +24,12 @@ const calculatedFeatures = features.sub(predictionPoint).pow(2).sum(1).pow(0.5);
 // Concat distances and labels (keep indices aligned for sorting) = 2D tensor
 const concatFeatures = calculatedFeatures.expandDims(1).concat(labels, 1);
 
-// Sort data from low -> great
-
+// (JS array of tensors)
+const unstackedFeatures = concatFeatures.unstack();
+// Sorted array
+const sortedFeatures = unstackedFeatures.sort((a, b) =>
+  a.arraySync()[0] > b.arraySync()[0] ? 1 : -1
+);
 // Take top K records (least -> great)
-console.log(concatFeatures.arraySync());
+// console.log(concatFeatures.arraySync());
+console.log(sortedFeatures[2].arraySync());
