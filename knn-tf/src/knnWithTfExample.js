@@ -33,5 +33,5 @@ const sortedFeatures = unstackedFeatures.sort((a, b) =>
 
 // Take top K records (least -> great)
 // console.log(concatFeatures.arraySync());
-// console.log(sortedFeatures[2].arraySync());
-// console.log(sortedFeatures[0].arraySync());
+console.log(sortedFeatures[2].arraySync());
+console.log(sortedFeatures[0].arraySync());
