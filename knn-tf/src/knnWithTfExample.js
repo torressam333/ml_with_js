@@ -1,4 +1,4 @@
-const tf = require("@tensorflow/tfjs-node");
+const tf = require('@tensorflow/tfjs-node');
 
 /**
  * Features order and labels order are in sync ([-124,47]) will
@@ -9,7 +9,7 @@ const features = tf.tensor([
   [-121, 47],
   [-121.2, 46.5],
   [-122, 46.4],
-  [-120.9, 46.7]
+  [-120.9, 46.7],
 ]);
 
 // Collection of labels (property values for houses)
@@ -34,4 +34,3 @@ const sortedFeatures = unstackedFeatures.sort((a, b) =>
 // Take top K records (least -> great)
 // console.log(concatFeatures.arraySync());
 console.log(sortedFeatures[2].arraySync());
-console.log(sortedFeatures[0].arraySync());
