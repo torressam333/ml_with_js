@@ -33,9 +33,12 @@ const sortedFeatures = unstackedFeatures.sort((a, b) =>
   a.arraySync()[0] > b.arraySync()[0] ? 1 : -1
 );
 
-// Average top values after sorting
-const avgValues = sortedFeatures.slice(0, k);
+// Average top values after sorting (reduce/avg by labels values)
+const avgValues = sortedFeatures
+  .slice(0, k)
+  .reduce((acc, pair) => acc + pair.arraySync()[1], 0);
 
 // Take top K records (least -> great)
 // console.log(concatFeatures.arraySync());
 console.log(sortedFeatures[2].arraySync());
+console.log(avgValues);
