@@ -8,7 +8,8 @@ var tf = require('@tensorflow/tfjs-node');
 // Fake sample data for housing info (long/lat for houses)
 
 
-var features = tf.tensor([[-121, 47], [-121.2, 46.5], [-122, 46.4], [-120.9, 46.7]]); // Collection of labels (property values for houses)
+var features = tf.tensor([[-121, 47], [-121.2, 46.5], [-122, 46.4], [-120.9, 46.7]]);
+var k = 2; // Collection of labels (property values for houses)
 
 var labels = tf.tensor([[200], [250], [215], [240]]); // Create prediction: point trying to calculate prop value for
 
@@ -22,7 +23,9 @@ var unstackedFeatures = concatFeatures.unstack(); // Sorted array using arraySyn
 
 var sortedFeatures = unstackedFeatures.sort(function (a, b) {
   return a.arraySync()[0] > b.arraySync()[0] ? 1 : -1;
-}); // Take top K records (least -> great)
+}); // Average top values after sorting
+
+var avgValues = sortedFeatures.slice(0, k); // Take top K records (least -> great)
 // console.log(concatFeatures.arraySync());
 
 console.log(sortedFeatures[2].arraySync());
