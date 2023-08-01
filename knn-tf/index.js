@@ -1,5 +1,4 @@
-require('@tensorflow/tfjs-node');
-const tf = require('@tensorflow/tfs');
+const tf = require('@tensorflow/tfjs-node');
 const loadCSV = require('./load-csv');
 
 // Returns object
@@ -16,3 +15,6 @@ let { features, labels, testFeatures, testLabels } = loadCSV(
     labelColumns: ['price'],
   }
 );
+
+console.log(testFeatures);
+console.log(testLabels);
