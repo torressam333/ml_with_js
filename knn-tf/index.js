@@ -1,6 +1,33 @@
 const tf = require('@tensorflow/tfjs-node');
 const loadCSV = require('./load-csv');
 
+const knn = (features, labels, predictionPoint, k) => {
+  // Formula: sq-root[(lat - lat)^2 + (long - long)^2] (pythag theorem)
+  const calculatedFeatures = features
+    .sub(predictionPoint)
+    .pow(2)
+    .sum(1)
+    .pow(0.5);
+
+  // Concat distances and labels (keep indices aligned for sorting) = 2D tensor
+  const concatFeatures = calculatedFeatures.expandDims(1).concat(labels, 1);
+
+  // (JS array of tensors)
+  const unstackedFeatures = concatFeatures.unstack();
+  // Sorted array using arraySync to grab data from tensor by index
+  const sortedFeatures = unstackedFeatures.sort((a, b) =>
+    a.arraySync()[0] > b.arraySync()[0] ? 1 : -1
+  );
+
+  // Average top values after sorting (reduce/avg by labels values)
+  const avgValues =
+    sortedFeatures
+      .slice(0, k)
+      .reduce((acc, pair) => acc + pair.arraySync()[1], 0) / k;
+
+  return avgValues;
+};
+
 // Returns object
 let { features, labels, testFeatures, testLabels } = loadCSV(
   'kc_house_data.csv',
@@ -16,5 +43,9 @@ let { features, labels, testFeatures, testLabels } = loadCSV(
   }
 );
 
-console.log(testFeatures);
-console.log(testLabels);
+features = tf.tensor(features);
+labels = tf.tensor(labels);
+
+const result = knn(features, labels, tf.tensor(testFeatures[0]), 10);
+
+console.log('GUESS: ', result, testLabels[0][0]);
