@@ -47,5 +47,7 @@ features = tf.tensor(features);
 labels = tf.tensor(labels);
 
 const result = knn(features, labels, tf.tensor(testFeatures[0]), 10);
+const marginOfError = (testLabels[0][0] - result) / testLabels[0][0];
 
 console.log('GUESS: ', result, testLabels[0][0]);
+console.log('Margin of error: ', marginOfError);
