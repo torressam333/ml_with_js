@@ -46,8 +46,11 @@ let { features, labels, testFeatures, testLabels } = loadCSV(
 features = tf.tensor(features);
 labels = tf.tensor(labels);
 
-const result = knn(features, labels, tf.tensor(testFeatures[0]), 10);
-const marginOfError = (testLabels[0][0] - result) / testLabels[0][0];
+// Loop through all rows and provide predictions across multiple test samples
+testFeatures.forEach((testPoint, index) => {
+  const result = knn(features, labels, tf.tensor(testPoint), 10);
+  const marginOfError = (testLabels[index][0] - result) / testLabels[index][0];
 
-console.log('GUESS: ', result, testLabels[0][0]);
-console.log('Margin of error: ', marginOfError * 100);
+  console.log('GUESS: ', result, testLabels[index][0]);
+  console.log('Margin of error: ', marginOfError * 100);
+});
