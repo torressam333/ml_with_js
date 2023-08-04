@@ -37,7 +37,7 @@ let { features, labels, testFeatures, testLabels } = loadCSV(
     // #of records creating 2 sets of data (1. Training 2. Testing) purposes
     splitTest: 10,
     // Which cols from data to test against
-    dataColumns: ['lat', 'long'],
+    dataColumns: ['lat', 'long', 'sqft_lot'],
     // Which col we want as our label (i.e. using lat + long to determine price)
     labelColumns: ['price'],
   }
