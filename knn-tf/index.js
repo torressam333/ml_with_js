@@ -53,4 +53,8 @@ testFeatures.forEach((testPoint, index) => {
 
   console.log('GUESS: ', result, testLabels[index][0]);
   console.log('Margin of error: ', marginOfError * 100);
+  console.log(
+    'Margin of error percentage: ',
+    `${Math.float(marginOfError * 100)}%`
+  );
 });
