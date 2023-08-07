@@ -58,3 +58,13 @@ testFeatures.forEach((testPoint, index) => {
     `${Math.round(marginOfError * 100)}%`
   );
 });
+
+/**
+ * Calculate mean and standard deviation
+ *
+ * Calculates the mean and variance of x. The mean and variance are calculated
+ * by aggregating the contents of x across axes. If x is 1-D and axes = [0]
+ * this is just the mean and variance of a vector.
+ */
+const { mean, variance } = tf.moments(tensor, 0);
+const standardDeviation = tensor.sub(mean).div(variance.pow(0.5));
