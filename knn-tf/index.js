@@ -67,6 +67,6 @@ testFeatures.forEach((testPoint, index) => {
   console.log('Margin of error: ', marginOfError * 100);
   console.log(
     'Margin of error percentage: ',
-    `${Math.round(marginOfError * 100)}%`
+    `${Math.ceil(marginOfError * 100)}%`
   );
 });
