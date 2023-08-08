@@ -14,6 +14,8 @@ const knn = (features, labels, predictionPoint, k) => {
 
   // Formula: sq-root[(lat - lat)^2 + (long - long)^2] (pythag theorem)
   const calculatedFeatures = features
+    .sub(mean)
+    .div(variance.pow(0.5))
     .sub(scaledPrediction)
     .pow(2)
     .sum(1)
