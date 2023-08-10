@@ -1,7 +1,7 @@
 // Main data store for ball drop data
 const outputs = [];
 // Arbitrary point used for this expirimentation
-const predictionPoint = 300;
+const predictionPoint = 500;
 
 /**
  *
