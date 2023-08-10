@@ -119,6 +119,12 @@ function runKNN(data, point, k) {
   );
 }
 
+/**
+ *
+ * @param {*} data
+ * @param {*} featureCount
+ * @returns
+ */
 function minMax(data, featureCount) {
   // Clone data to ensure no mutation happens
   const clonedData = _.cloneDeep(data);
